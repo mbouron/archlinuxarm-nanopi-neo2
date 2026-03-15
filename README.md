@@ -11,22 +11,7 @@ Dependencies
 - `uboot-tools`
 - `sudo`
 - `fdisk`
-
-
-Prerequisite
-============
-
-In order to build the image, you need a working ARM toolchain.
-
-Here is a simple way to get one:
-
-    git clone https://github.com/crosstool-ng/crosstool-ng
-    cd crosstool-ng
-    ./bootstrap
-    ./configure --enable-local
-    make
-    ./ct-ng aarch64-unknown-linux-gnu
-    ./ct-ng build
+- `aarch64-linux-gnu-gcc`
 
 
 Preparing the files
