@@ -2,8 +2,7 @@ This repository can be used to create an ArchLinuxARM image for the NanoPi Neo2
 board.
 
 
-Dependencies
-============
+## Dependencies
 
 - `make`
 - `bsdtar` (`libarchive`)
@@ -13,8 +12,7 @@ Dependencies
 - `aarch64-linux-gnu-gcc`
 
 
-Preparing the files
-===================
+## Preparing the files
 
 Run `make` (specifying jobs with `-jX` is supported and recommended).
 
@@ -25,36 +23,18 @@ This will provide:
 - a boot script (`boot.scr`) to be copied in `/boot`
 
 
-Installing the distribution
-===========================
+## Installing the distribution
 
 Run `make install BLOCK_DEVICE=/dev/mmcblk0` with the appropriate value for
 `BLOCK_DEVICE`.
 
-This is running commands similar to [any other AllWinner ArchLinuxARM
-installation][alarm-allwinner].
 
-[alarm-allwinner]: https://archlinuxarm.org/platforms/armv7/allwinner/.
+## Goodies
 
-Ethernet
-========
-
-In order to get ethernet working, you will need a recent kernel (>= 4.13).  At
-the time I'm writing these lines, the latest stable is 4.12. Though, you can
-grab the [kernel RC package from ArchLinux ARM][linux-rc] and install it from
-the serial interface.
-
-[linux-rc]: https://archlinuxarm.org/packages/aarch64/linux-aarch64-rc
+If you have a serial cable and `python-pyserial` installed, `make serial` will
+open a session with the appropriate settings.
 
 
-Goodies
-=======
-
-If you have a serial cable and `miniterm.py` installed (`python-pyserial`),
-`make serial` will open a session with the appropriate settings.
-
-
-TODO
-====
+## TODO
 
 - upstream to ArchLinuxARM
