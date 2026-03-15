@@ -57,7 +57,7 @@ install: $(UBOOT_BIN) $(UBOOT_SCRIPT) $(ARCH_TARBALL)
 ifeq ($(BLOCK_DEVICE),/dev/null)
 	@echo You must set BLOCK_DEVICE option
 else
-	sudo dd if=/dev/zero of=$(BLOCK_DEVICE) bs=1M count=8
+	sudo dd if=/dev/zero of=$(BLOCK_DEVICE) bs=1M count=8 conv=fsync
 	echo ';' | sudo sfdisk --label dos $(BLOCK_DEVICE)
 	sudo mkfs.ext4 $(call part1,$(BLOCK_DEVICE))
 	mkdir -p $(MOUNT_POINT)
@@ -68,7 +68,7 @@ else
 	sync
 	sudo umount $(MOUNT_POINT) || true
 	rmdir $(MOUNT_POINT) || true
-	sudo dd if=$(UBOOT_BIN) of=$(BLOCK_DEVICE) bs=1024 seek=8
+	sudo dd if=$(UBOOT_BIN) of=$(BLOCK_DEVICE) bs=1M seek=8 conv=fsync
 endif
 
 clean:
