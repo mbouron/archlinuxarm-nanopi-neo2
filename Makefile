@@ -1,5 +1,4 @@
 SERIAL_DEVICE = /dev/ttyUSB0
-MINITERM = miniterm.py
 CROSS_COMPILE ?= aarch64-linux-gnu-
 BLOCK_DEVICE ?= /dev/null
 
@@ -49,7 +48,7 @@ $(UBOOT_SCRIPT): boot.txt
 	mkimage -A arm64 -O linux -T script -C none -n "U-Boot boot script" -d $< $@
 
 serial:
-	$(MINITERM) --raw --eol=lf $(SERIAL_DEVICE) 115200
+	pyserial-miniterm --raw --eol=lf $(SERIAL_DEVICE) 115200
 define part1
 $$(lsblk -ln -o PATH $(1) | tail -n1)
 endef
