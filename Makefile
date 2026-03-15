@@ -6,8 +6,9 @@ PYTHON ?= python2
 BLOCK_DEVICE ?= /dev/null
 FIND ?= find
 
-TRUSTED_FIRMWARE_TARBALL = allwinner.zip
-TRUSTED_FIRMWARE_DIR = arm-trusted-firmware-allwinner
+TRUSTED_FIRMWARE_VERSION = 2.14.0
+TRUSTED_FIRMWARE_TARBALL = arm-trusted-firmware-v$(TRUSTED_FIRMWARE_VERSION).tar.gz
+TRUSTED_FIRMWARE_DIR = arm-trusted-firmware-$(TRUSTED_FIRMWARE_VERSION)
 TRUSTED_FIRMWARE_BIN = bl31.bin
 
 UBOOT_SCRIPT = boot.scr
@@ -26,13 +27,12 @@ ALL = $(ARCH_TARBALL) $(UBOOT_BIN) $(UBOOT_SCRIPT)
 all: $(ALL)
 
 $(TRUSTED_FIRMWARE_TARBALL):
-	$(WGET)  https://github.com/apritzel/arm-trusted-firmware/archive/$@
+	$(WGET) https://github.com/ARM-software/arm-trusted-firmware/archive/refs/tags/v$(TRUSTED_FIRMWARE_VERSION).tar.gz -O $@
 $(TRUSTED_FIRMWARE_DIR): $(TRUSTED_FIRMWARE_TARBALL)
-	unzip $<
+	tar xf $<
 $(TRUSTED_FIRMWARE_BIN): $(TRUSTED_FIRMWARE_DIR)
-	cd $< && \
-		make PLAT=sun50iw1p1 DEBUG=1 bl31 CROSS_COMPILE=$(CROSS_COMPILE)
-	cp $</build/sun50iw1p1/debug/$@ .
+	cd $< && make PLAT=sun50i_a64 DEBUG=1 bl31 CROSS_COMPILE=$(CROSS_COMPILE)
+	cp $</build/sun50i_a64/debug/$@ .
 
 $(UBOOT_TARBALL):
 	$(WGET) https://github.com/u-boot/u-boot/archive/v$(UBOOT_VERSION).tar.gz -O $@
