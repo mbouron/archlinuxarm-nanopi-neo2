@@ -7,8 +7,8 @@ Dependencies
 
 - `make`
 - `bsdtar` (`libarchive`)
-- `python2`
 - `uboot-tools`
+- `swig`
 - `sudo`
 - `fdisk`
 - `aarch64-linux-gnu-gcc`
