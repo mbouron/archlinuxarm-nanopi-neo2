@@ -72,7 +72,12 @@ else
 endif
 
 clean:
-	$(RM) $(ALL)
-	$(RM) -r $(UBOOT_DIR)
+	$(RM) -r $(UBOOT_DIR) $(UBOOT_BIN) $(UBOOT_SCRIPT)
+	$(RM) -r $(TRUSTED_FIRMWARE_DIR) $(TRUSTED_FIRMWARE_BIN)
+
+distclean: clean
+	$(RM) $(ARCH_TARBALL)
+	$(RM) $(UBOOT_TARBALL)
+	$(RM) $(TRUSTED_FIRMWARE_TARBALL)
 
 .PHONY: all serial clean install
