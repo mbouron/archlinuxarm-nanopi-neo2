@@ -1,4 +1,7 @@
-/ArchLinuxARM-armv7-latest.tar.gz
+/*.tar.gz
+/arm-trusted-firmware-*/
+/u-boot-*/
+/bl31.bin
+/u-boot-sunxi-with-spl.bin
 /boot.scr
-/boot.txt
-/u-boot-*
+/mnt/
