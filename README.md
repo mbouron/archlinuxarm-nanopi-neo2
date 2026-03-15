@@ -10,7 +10,6 @@ Dependencies
 - `uboot-tools`
 - `swig`
 - `sudo`
-- `fdisk`
 - `aarch64-linux-gnu-gcc`
 
 
