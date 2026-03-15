@@ -2,7 +2,6 @@ SERIAL_DEVICE = /dev/ttyUSB0
 WGET = wget
 MINITERM = miniterm.py
 CROSS_COMPILE ?= aarch64-linux-gnu-
-PYTHON ?= python2
 BLOCK_DEVICE ?= /dev/null
 FIND ?= find
 
@@ -16,7 +15,7 @@ UBOOT_BIN = u-boot-sunxi-with-spl.bin
 
 ARCH_TARBALL = ArchLinuxARM-aarch64-latest.tar.gz
 
-UBOOT_VERSION = 2018.09-rc2
+UBOOT_VERSION = 2026.01
 UBOOT_TARBALL = u-boot-v$(UBOOT_VERSION).tar.gz
 UBOOT_DIR = u-boot-$(UBOOT_VERSION)
 
@@ -35,7 +34,7 @@ $(TRUSTED_FIRMWARE_BIN): $(TRUSTED_FIRMWARE_DIR)
 	cp $</build/sun50i_a64/debug/$@ .
 
 $(UBOOT_TARBALL):
-	$(WGET) https://github.com/u-boot/u-boot/archive/v$(UBOOT_VERSION).tar.gz -O $@
+	$(WGET) https://github.com/u-boot/u-boot/archive/refs/tags/v$(UBOOT_VERSION).tar.gz -O $@
 $(UBOOT_DIR): $(UBOOT_TARBALL)
 	tar xf $<
 
@@ -43,8 +42,8 @@ $(ARCH_TARBALL):
 	$(WGET) http://archlinuxarm.org/os/$@
 
 $(UBOOT_BIN): $(UBOOT_DIR) $(TRUSTED_FIRMWARE_BIN)
-	cd $< && $(MAKE) nanopi_neo2_defconfig && $(MAKE) CROSS_COMPILE=$(CROSS_COMPILE) PYTHON=$(PYTHON) BL31=../$(TRUSTED_FIRMWARE_BIN)
-	cat $(UBOOT_DIR)/spl/sunxi-spl.bin $(UBOOT_DIR)/u-boot.itb > $@
+	cd $< && $(MAKE) nanopi_neo2_defconfig && $(MAKE) CROSS_COMPILE=$(CROSS_COMPILE) BL31=../$(TRUSTED_FIRMWARE_BIN)
+	cp $(UBOOT_DIR)/$@ $@
 
 # Note: non-deterministic output as the image header contains a timestamp and a
 # checksum including this timestamp (2x32-bit at offset 4)
