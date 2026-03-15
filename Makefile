@@ -53,7 +53,7 @@ define part1
 $$(lsblk -ln -o PATH $(1) | tail -n1)
 endef
 
-install: $(UBOOT_BIN) $(UBOOT_SCRIPT) $(ARCH_TARBALL)
+install: $(ALL)
 ifeq ($(BLOCK_DEVICE),/dev/null)
 	@echo You must set BLOCK_DEVICE option
 else
