@@ -2,7 +2,6 @@ SERIAL_DEVICE = /dev/ttyUSB0
 MINITERM = miniterm.py
 CROSS_COMPILE ?= aarch64-linux-gnu-
 BLOCK_DEVICE ?= /dev/null
-FIND ?= find
 
 TRUSTED_FIRMWARE_VERSION = 2.14.0
 TRUSTED_FIRMWARE_TARBALL = arm-trusted-firmware-v$(TRUSTED_FIRMWARE_VERSION).tar.gz
@@ -52,7 +51,7 @@ $(UBOOT_SCRIPT): boot.txt
 serial:
 	$(MINITERM) --raw --eol=lf $(SERIAL_DEVICE) 115200
 define part1
-/dev/$(shell basename $(shell $(FIND) /sys/block/$(shell basename $(1))/ -maxdepth 2 -name "partition" -printf "%h"))
+$$(lsblk -ln -o PATH $(1) | tail -n1)
 endef
 
 install: $(UBOOT_BIN) $(UBOOT_SCRIPT) $(ARCH_TARBALL)
