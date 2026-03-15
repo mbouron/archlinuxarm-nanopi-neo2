@@ -55,12 +55,12 @@ define part1
 /dev/$(shell basename $(shell $(FIND) /sys/block/$(shell basename $(1))/ -maxdepth 2 -name "partition" -printf "%h"))
 endef
 
-install: $(UBOOT_BIN) $(UBOOT_SCRIPT) $(ARCH_TARBALL) fdisk.cmd
+install: $(UBOOT_BIN) $(UBOOT_SCRIPT) $(ARCH_TARBALL)
 ifeq ($(BLOCK_DEVICE),/dev/null)
 	@echo You must set BLOCK_DEVICE option
 else
 	sudo dd if=/dev/zero of=$(BLOCK_DEVICE) bs=1M count=8
-	sudo fdisk $(BLOCK_DEVICE) < fdisk.cmd
+	echo ';' | sudo sfdisk --label dos $(BLOCK_DEVICE)
 	sudo mkfs.ext4 $(call part1,$(BLOCK_DEVICE))
 	mkdir -p $(MOUNT_POINT)
 	sudo umount $(MOUNT_POINT) || true
