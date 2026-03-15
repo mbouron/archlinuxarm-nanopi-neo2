@@ -1,5 +1,4 @@
 SERIAL_DEVICE = /dev/ttyUSB0
-WGET = wget
 MINITERM = miniterm.py
 CROSS_COMPILE ?= aarch64-linux-gnu-
 BLOCK_DEVICE ?= /dev/null
@@ -26,7 +25,7 @@ ALL = $(ARCH_TARBALL) $(UBOOT_BIN) $(UBOOT_SCRIPT)
 all: $(ALL)
 
 $(TRUSTED_FIRMWARE_TARBALL):
-	$(WGET) https://github.com/ARM-software/arm-trusted-firmware/archive/refs/tags/v$(TRUSTED_FIRMWARE_VERSION).tar.gz -O $@
+	curl -L https://github.com/ARM-software/arm-trusted-firmware/archive/refs/tags/v$(TRUSTED_FIRMWARE_VERSION).tar.gz -o $@
 $(TRUSTED_FIRMWARE_DIR): $(TRUSTED_FIRMWARE_TARBALL)
 	tar xf $<
 $(TRUSTED_FIRMWARE_BIN): $(TRUSTED_FIRMWARE_DIR)
@@ -34,12 +33,12 @@ $(TRUSTED_FIRMWARE_BIN): $(TRUSTED_FIRMWARE_DIR)
 	cp $</build/sun50i_a64/debug/$@ .
 
 $(UBOOT_TARBALL):
-	$(WGET) https://github.com/u-boot/u-boot/archive/refs/tags/v$(UBOOT_VERSION).tar.gz -O $@
+	curl -L https://github.com/u-boot/u-boot/archive/refs/tags/v$(UBOOT_VERSION).tar.gz -o $@
 $(UBOOT_DIR): $(UBOOT_TARBALL)
 	tar xf $<
 
 $(ARCH_TARBALL):
-	$(WGET) http://archlinuxarm.org/os/$@
+	curl -L http://archlinuxarm.org/os/$@ -o $@
 
 $(UBOOT_BIN): $(UBOOT_DIR) $(TRUSTED_FIRMWARE_BIN)
 	cd $< && $(MAKE) nanopi_neo2_defconfig && $(MAKE) CROSS_COMPILE=$(CROSS_COMPILE) BL31=../$(TRUSTED_FIRMWARE_BIN)
